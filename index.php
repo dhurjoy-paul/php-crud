@@ -46,7 +46,7 @@
                   href='editStudent.php?id=$row[id]' 
                   class='bg-indigo-600 px-3 py-1.5 rounded-md cursor-pointer'>Edit</a>
                 <a
-                  href=''
+                  href='actions/deleteStudent.php?id=$row[id]'
                   class='bg-red-600 px-3 py-1.5 rounded-md cursor-pointer'>Delete</a>
               </td>
             </tr>
