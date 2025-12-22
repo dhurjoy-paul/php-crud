@@ -1,6 +1,7 @@
 <?php
 include 'inc/header.php';
 include 'actions/getStudents.php';
+include 'actions/pagination.php';
 ?>
 
 <div class="flex justify-between items-center bg-gray-200 mx-auto my-8 p-4 rounded-md w-full max-w-5xl font-medium">
@@ -24,7 +25,7 @@ if ($num > 0) {
   echo "<table class='mx-auto my-8 p-4 [&_td]:p-2 [&_th]:p-3 rounded-md w-full max-w-5xl text-center'>
   <thead>
     <tr class='bg-gray-800 text-white'>
-      <th><input type='checkbox'></th>
+      <th><input type='checkbox' value=''></th>
       <th>Serial</th>
       <th>Name</th>
       <th>Email</th>
@@ -37,7 +38,9 @@ if ($num > 0) {
   while ($row = $result->fetch_assoc()) {
     echo "
             <tr>
-              <td><input type='checkbox' name='' id=''></td>
+              <td>
+                <input type='checkbox' name='checkbox' value='$row[id]'>
+              </td>
               <td>$row[id]</td>
               <td>$row[name]</td>
               <td>$row[email]</td>
@@ -69,14 +72,18 @@ if ($num > 0) {
   echo "
   <!-- pagination -->
   <div class='flex justify-between items-center mx-auto w-full max-w-5xl'>
-  <p>Showing 10 from 100</p>
+  <p>Showing 1 of $pages pages</p>
   <p class='flex items-center gap-4 font-bold'>
-    <button class='flex justify-center items-center bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer'>-</button>
+    <a href='?page-num=1' class='flex justify-center items-center rounded-md cursor-pointer'>First</a>
+
+    <a href='' class='flex justify-center items-center bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer'>-</a>
+
     <span>1</span>
     <span>2</span>
     <span>3</span>
     <span>...</span>
     <button class='flex justify-center items-center bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer'>+</button>
+    <a href='?page-num=$pages' class='flex justify-center items-center rounded-md cursor-pointer'>Last</a>
   </p>
 </div>
   ";

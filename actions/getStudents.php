@@ -13,7 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
   if (empty($searchedText)) {
     exit;
   }
-  // $sql = "SELECT * FROM tbl_students WHERE id like %$searchedText% OR name like %$searchedText% OR email like %$searchedText%";
   $sql = "SELECT * FROM tbl_students WHERE id LIKE '%$searchedText%' OR name LIKE '%$searchedText%' OR email LIKE '%$searchedText%'";
 
   // echo "$sql";
