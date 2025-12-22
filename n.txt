@@ -1,0 +1,28 @@
+<?php
+require_once "config/db.php";
+
+if ($connection->connect_error) {
+  die("connection failed: " . $connection->connect_error);
+}
+
+$searchedText = "";
+$sql = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  $searchedText = $_POST["searchedText"];
+
+  if (empty($searchedText)) {
+    // read all row from db table
+    $sql = "SELECT * FROM tbl_students";
+  } else {
+    // search student by name on db
+    $sql = "SELECT * FROM tbl_students WHERE name = '$searchedText'";
+  }
+}
+
+$sql = "SELECT * FROM tbl_students";
+$result = $connection->query($sql);
+
+if (!$result) {
+  die("Invalid query: " . $connection->error);
+}

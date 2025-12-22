@@ -10,7 +10,6 @@ $successMessage = "";
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
   $id = $_GET["id"];
 
-  // GET: show the data of client
   if (!isset($id)) {
     header("location: /php-crud");
     exit;

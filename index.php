@@ -1,45 +1,41 @@
-<?php include 'inc/header.php'; ?>
+<?php
+include 'inc/header.php';
+include 'actions/getStudents.php';
+?>
 
-<p class="flex justify-between items-center bg-gray-200 mx-auto my-8 p-4 rounded-md w-full max-w-5xl font-medium">
+<div class="flex justify-between items-center bg-gray-200 mx-auto my-8 p-4 rounded-md w-full max-w-5xl font-medium">
   <span class="text-2xl">Student list</span>
-  <input type="text" name="" id=""
-    placeholder="Search by name"
-    class="px-2 py-1 rounded ring-2 ring-black w-1/2">
-  <a href="addStudent.php" class="bg-gray-800 px-4 py-2 rounded-md text-white">Add Student</a>
-</p>
 
-<table class="mx-auto my-8 p-4 [&_td]:p-2 [&_th]:p-3 rounded-md w-full max-w-5xl text-center">
+  <!-- search field -->
+  <form method="post">
+    <input type="text" name="searchedText" id="" value=""
+      placeholder="Search by name"
+      class="px-2 py-1 rounded ring-2 ring-black">
+    <input onsubmit="" type="submit" value="Search"
+      class="bg-gray-800 px-3 py-1 rounded-md w-fit text-white">
+  </form>
+
+  <a href="addStudent.php" class="bg-gray-800 px-4 py-2 rounded-md text-white">Add Student</a>
+</div>
+
+<!-- main table -->
+<?php
+if ($num > 0) {
+  echo "<table class='mx-auto my-8 p-4 [&_td]:p-2 [&_th]:p-3 rounded-md w-full max-w-5xl text-center'>
   <thead>
-    <tr class="bg-gray-800 text-white">
-      <th><input type="checkbox" name="" id=""></th>
+    <tr class='bg-gray-800 text-white'>
+      <th><input type='checkbox'></th>
       <th>Serial</th>
       <th>Name</th>
       <th>Email</th>
       <th>Phone</th>
       <th>Action</th>
     </tr>
-  </thead>
+  </thead>";
 
-  <tbody class="[&>tr]:odd:bg-gray-200">
-    <?php
-    require_once "config/db.php";
-
-    // check connection 
-    if ($connection->connect_error) {
-      die("connection failed: " . $connection->connect_error);
-    }
-
-    // read all row from db table
-    $sql = "SELECT * FROM tbl_students";
-    $result = $connection->query($sql);
-
-    if (!$result) {
-      die("Invalid query: " . $connection->error);
-    }
-
-    // read data of each row
-    while ($row = $result->fetch_assoc()) {
-      echo "
+  echo "<tbody class='[&>tr]:odd:bg-gray-200'>";
+  while ($row = $result->fetch_assoc()) {
+    echo "
             <tr>
               <td><input type='checkbox' name='' id=''></td>
               <td>$row[id]</td>
@@ -56,22 +52,36 @@
               </td>
             </tr>
           ";
-    }
-    ?>
-  </tbody>
+  }
+} else {
+  echo " 
+        <p class='py-4 font-medium text-2xl text-center'>
+          No data found!
+        </p>
+        ";
+}
+?>
+</tbody>
 </table>
 
-<div class="flex justify-between items-center mx-auto w-full max-w-5xl">
+<?php
+if ($num > 0) {
+  echo "
+  <!-- pagination -->
+  <div class='flex justify-between items-center mx-auto w-full max-w-5xl'>
   <p>Showing 10 from 100</p>
-  <p class="flex items-center gap-4 font-bold">
-    <button class="flex justify-center items-center bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer">-</button>
+  <p class='flex items-center gap-4 font-bold'>
+    <button class='flex justify-center items-center bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer'>-</button>
     <span>1</span>
     <span>2</span>
     <span>3</span>
     <span>...</span>
-    <button class="flex justify-center items-center bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer">+</button>
+    <button class='flex justify-center items-center bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer'>+</button>
   </p>
 </div>
+  ";
+}
+?>
 
 </body>
 

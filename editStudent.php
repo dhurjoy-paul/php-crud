@@ -8,6 +8,7 @@ include 'actions/editStudent.php';
   <a href="index.php" class="bg-gray-800 px-4 py-2 rounded-md text-white">
     Go back</a>
 </p>
+
 <div class="mx-auto w-full max-w-xl">
   <form method="post" class="flex flex-col justify-center gap-4">
     <input type="hidden" name="id" value="<?php echo $id; ?>">
