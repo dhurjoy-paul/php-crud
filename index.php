@@ -8,7 +8,7 @@ include 'actions/getStudents.php';
 
   <!-- search field -->
   <form method="post">
-    <input type="text" name="searchedText" id="" value=""
+    <input type="text" name="searchedText"
       placeholder="Search by name"
       class="px-2 py-1 rounded ring-2 ring-black">
     <input onsubmit="" type="submit" value="Search"
