@@ -2,12 +2,16 @@
 
 <p class="flex justify-between items-center bg-gray-200 mx-auto my-8 p-4 rounded-md w-full max-w-5xl font-medium">
   <span class="text-2xl">Student list</span>
+  <input type="text" name="" id=""
+    placeholder="Search by name"
+    class="px-2 py-1 rounded ring-2 ring-black w-1/2">
   <a href="addStudent.php" class="bg-gray-800 px-4 py-2 rounded-md text-white">Add Student</a>
 </p>
 
 <table class="mx-auto my-8 p-4 [&_td]:p-2 [&_th]:p-3 rounded-md w-full max-w-5xl text-center">
   <thead>
-    <tr>
+    <tr class="bg-gray-800 text-white">
+      <th><input type="checkbox" name="" id=""></th>
       <th>Serial</th>
       <th>Name</th>
       <th>Email</th>
@@ -37,6 +41,7 @@
     while ($row = $result->fetch_assoc()) {
       echo "
             <tr>
+              <td><input type='checkbox' name='' id=''></td>
               <td>$row[id]</td>
               <td>$row[name]</td>
               <td>$row[email]</td>
@@ -55,6 +60,19 @@
     ?>
   </tbody>
 </table>
+
+<div class="flex justify-between items-center mx-auto w-full max-w-5xl">
+  <p>Showing 10 from 100</p>
+  <p class="flex items-center gap-4 font-bold">
+    <button class="flex justify-center items-center bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer">-</button>
+    <span>1</span>
+    <span>2</span>
+    <span>3</span>
+    <span>...</span>
+    <button class="flex justify-center items-center bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer">+</button>
+  </p>
+</div>
+
 </body>
 
 </html>
