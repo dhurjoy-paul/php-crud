@@ -67,28 +67,42 @@ if ($num > 0) {
 </tbody>
 </table>
 
-<?php
-if ($num > 0) {
-  echo "
-  <!-- pagination -->
+<!-- pagination -->
+<?php if ($num > 0) { ?>
+
   <div class='flex justify-between items-center mx-auto w-full max-w-5xl'>
-  <p>Showing 1 of $pages pages</p>
-  <p class='flex items-center gap-4 font-bold'>
-    <a href='?page-num=1' class='flex justify-center items-center rounded-md cursor-pointer'>First</a>
+    <?php
+    if (!isset($_GET['page_num'])) {
+      $current_page = 1;
+    } else {
+      $current_page = $_GET['page_num'];
+    }
+    ?>
+    <p>Showing <?php echo $current_page; ?> of <?php echo $pages; ?> pages</p>
+    <p class='flex items-center gap-4 font-bold'>
+      <a href='?page_num=1' class='flex justify-center items-center px-1 rounded-md hover:text-blue-800 underline hover:no-underline cursor-pointer'>First</a>
 
-    <a href='' class='flex justify-center items-center bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer'>-</a>
+      <?php if (isset($_GET['page_num']) && $_GET['page_num'] > 1) { ?>
+        <a href="?page_num=<?php echo $_GET['page_num'] - 1; ?>"
+          class='flex justify-center items-center bg-gray-600 hover:bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer'>-</a>
+      <?php
+      }
+      for ($i = 1; $i <= $pages; $i++) {
+      ?>
+        <a href='?page_num=<?php echo $i; ?>'
+          class='flex justify-center items-center hover:bg-gray-800 border rounded-md w-6 aspect-square hover:text-white cursor-pointer'><?php echo "$i"; ?></a>
+      <?php } ?>
 
-    <span>1</span>
-    <span>2</span>
-    <span>3</span>
-    <span>...</span>
-    <button class='flex justify-center items-center bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer'>+</button>
-    <a href='?page-num=$pages' class='flex justify-center items-center rounded-md cursor-pointer'>Last</a>
-  </p>
-</div>
-  ";
-}
-?>
+
+      <?php if (isset($_GET['page_num']) && $_GET['page_num'] != $pages) { ?>
+        <a href='?page_num=<?php echo $_GET['page_num'] + 1; ?>'
+          class='flex justify-center items-center bg-gray-600 hover:bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer'>+</a>
+      <?php } ?>
+
+      <a href='?page_num=<?php echo $pages; ?>' class='flex justify-center items-center px-1 rounded-md hover:text-blue-800 underline hover:no-underline cursor-pointer'>Last</a>
+    </p>
+  </div>
+<?php } ?>
 
 </body>
 

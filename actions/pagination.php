@@ -11,8 +11,8 @@ $total_num_rows = mysqli_num_rows($result_for_num);
 // calculation for page number
 $pages = ceil($total_num_rows / $rows_per_page);
 
-if (isset($_GET['page-num'])) {
-  $page = $_GET['page-num'] - 1;
+if (isset($_GET['page_num'])) {
+  $page = $_GET['page_num'] - 1;
   $start = $page * $rows_per_page;
 }
 
