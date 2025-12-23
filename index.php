@@ -1,44 +1,52 @@
 <?php
 include 'inc/header.php';
 include 'actions/getStudents.php';
-include 'actions/pagination.php';
 ?>
 
-<div class="flex justify-between items-center bg-gray-200 mx-auto my-8 p-4 rounded-md w-full max-w-5xl font-medium">
+<div class="flex justify-between items-center bg-gray-200 mx-auto mt-8 mb-2 p-4 rounded-md w-full max-w-5xl font-medium">
   <span class="text-2xl">Student list</span>
 
   <!-- search field -->
-  <form method="post">
-    <input type="text" name="searchedText"
+  <form name='search' method="post">
+    <input type="text" name="searchedText" required
       placeholder="Search by name"
       class="px-2 py-1 rounded ring-2 ring-black">
-    <input onsubmit="" type="submit" value="Search"
+    <input type="submit" name='search' value="Search"
       class="bg-gray-800 px-3 py-1 rounded-md w-fit text-white">
   </form>
 
-  <a href="addStudent.php" class="bg-gray-800 px-4 py-2 rounded-md text-white">Add Student</a>
+  <a href="addStudent.php" class="bg-gray-800 px-4 py-2 rounded-md text-white">
+    Add Student
+  </a>
 </div>
 
 <!-- main table -->
 <?php if ($num > 0) { ?>
-  <table class='mx-auto my-8 p-4 [&_td]:p-2 [&_th]:p-3 rounded-md w-full max-w-5xl text-center'>
-    <thead>
-      <tr class='bg-gray-800 text-white'>
-        <th><input type='checkbox' value=''></th>
-        <th>Serial</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Action</th>
-      </tr>
-    </thead>
+  <form name="bulk_delete_form" action="post">
 
-    <tbody class='[&>tr]:odd:bg-gray-200'>
-      <?php while ($row = $result->fetch_assoc()) {
-        echo "
+    <div class='flex justify-end mx-auto max-w-5xl'>
+      <input type='submit' name='bulk_delete_form' value='Delete selected'
+        class='bg-red-400 hover:bg-red-600 mr-3 px-3 py-1 rounded-md hover:text-white'>
+    </div>
+
+    <table class='mx-auto mt-2 mb-8 p-4 [&_td]:p-2 [&_th]:p-3 rounded-md w-full max-w-5xl text-center'>
+      <thead>
+        <tr class='bg-gray-800 text-white'>
+          <th><input type='checkbox' value=''></th>
+          <th>Serial</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody class='[&>tr]:odd:bg-gray-200'>
+        <?php while ($row = $result->fetch_assoc()) {
+          echo "
         <tr>
           <td>
-            <input type='checkbox' name='checkbox' value='$row[id]'>
+            <input type='checkbox' name='checked_id[]' value='$row[id]'>
           </td>
           <td>$row[id]</td>
           <td>$row[name]</td>
@@ -54,15 +62,16 @@ include 'actions/pagination.php';
           </td>
         </tr>
         ";
-      }
-    } else {
-      ?>
-      <p class='py-4 font-medium text-2xl text-center'>
-        No data found!
-      </p>
-    <?php } ?>
-    </tbody>
-  </table>
+        }
+      } else {
+        ?>
+        <p class='py-4 font-medium text-2xl text-center'>
+          No data found!
+        </p>
+      <?php } ?>
+      </tbody>
+    </table>
+  </form>
 
   <!-- pagination -->
   <?php if ($num > 0) { ?>
