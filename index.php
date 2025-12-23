@@ -1,10 +1,11 @@
 <?php
 include 'inc/header.php';
 include 'actions/getStudents.php';
+include 'actions/bulkDeleteStudents.php';
 ?>
 
 <div class="flex justify-between items-center bg-gray-200 mx-auto mt-8 mb-2 p-4 rounded-md w-full max-w-5xl font-medium">
-  <span class="text-2xl">Student list</span>
+  <a href="/php-crud/?page_num=1" class="text-2xl hover:underline">Student list</a>
 
   <!-- search field -->
   <form name='search' method="post">
@@ -20,19 +21,25 @@ include 'actions/getStudents.php';
   </a>
 </div>
 
-<!-- main table -->
 <?php if ($num > 0) { ?>
-  <form name="bulk_delete_form" action="post">
-
-    <div class='flex justify-end mx-auto max-w-5xl'>
-      <input type='submit' name='bulk_delete_form' value='Delete selected'
-        class='bg-red-400 hover:bg-red-600 mr-3 px-3 py-1 rounded-md hover:text-white'>
+  <!-- main table -->
+  <!-- action='actions/bulkDeleteStudents.php' -->
+  <form name="bulk_delete_submit" method="post">
+    <div class='flex justify-between items-center mx-auto max-w-5xl font-medium'>
+      <?php
+      echo "<p>$statusMessage</p>";
+      ?>
+      <input type="submit"
+        name="bulk_delete_submit"
+        value="Delete selected"
+        onclick="return confirm('Are you sure you want to delete selected students?')"
+        class="bg-red-400 hover:bg-red-600 mr-3 px-3 py-1 rounded-md hover:text-white">
     </div>
 
     <table class='mx-auto mt-2 mb-8 p-4 [&_td]:p-2 [&_th]:p-3 rounded-md w-full max-w-5xl text-center'>
       <thead>
         <tr class='bg-gray-800 text-white'>
-          <th><input type='checkbox' value=''></th>
+          <th><input type='checkbox' id='checkAll'></th>
           <th>Serial</th>
           <th>Name</th>
           <th>Email</th>
@@ -65,16 +72,14 @@ include 'actions/getStudents.php';
         }
       } else {
         ?>
-        <p class='py-4 font-medium text-2xl text-center'>
-          No data found!
-        </p>
+        <p class='py-4 font-medium text-2xl text-center'>No data found!</p>
       <?php } ?>
       </tbody>
     </table>
   </form>
 
   <!-- pagination -->
-  <?php if ($num > 0) { ?>
+  <?php if ($num > 0 && !$searchedText) { ?>
 
     <div class='flex justify-between items-center mx-auto w-full max-w-5xl'>
       <?php
@@ -85,6 +90,8 @@ include 'actions/getStudents.php';
       }
       ?>
       <p>Showing <?php echo $current_page; ?> of <?php echo $pages; ?> pages</p>
+
+      <!-- pagination navigation -->
       <p class='flex items-center gap-4 font-bold'>
         <a href='?page_num=1' class='flex justify-center items-center px-1 rounded-md hover:text-blue-800 underline hover:no-underline cursor-pointer'>First</a>
 
@@ -93,10 +100,11 @@ include 'actions/getStudents.php';
             class='flex justify-center items-center bg-gray-600 hover:bg-gray-800 rounded-md w-6 aspect-square text-white cursor-pointer'>-</a>
         <?php
         }
+
         for ($i = 1; $i <= $pages; $i++) {
         ?>
           <a href='?page_num=<?php echo $i; ?>'
-            class='flex justify-center items-center hover:bg-gray-800 border rounded-md w-6 aspect-square hover:text-white cursor-pointer'><?php echo "$i"; ?></a>
+            class='<?php echo (isset($_GET['page_num']) && $_GET['page_num'] == $i) ? 'bg-gray-800 text-white' : ''; ?> flex justify-center items-center hover:bg-gray-800 border rounded-md w-6 aspect-square hover:text-white cursor-pointer'><?php echo "$i"; ?></a>
         <?php } ?>
 
 
@@ -113,6 +121,15 @@ include 'actions/getStudents.php';
     </div>
   <?php } ?>
 
+
+
+  <script>
+    document.getElementById('checkAll').addEventListener('change',
+      function() {
+        const checkboxes = document.querySelectorAll('input[name="checked_id[]"]');
+        checkboxes.forEach(cb => cb.checked = this.checked);
+      });
+  </script>
   </body>
 
   </html>
